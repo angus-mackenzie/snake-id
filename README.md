@@ -1,6 +1,22 @@
 # Snakes Challenge
 Based on the [AI Crowd Snake Species Identification Challenge](https://aicrowd.com/challenges/snake-species-identification-challenge)
 
+# Setup
+Run the following command to create a new conda env with the required packages:
+```
+conda env create -f environment.yaml
+```
+To run jupyter notebooks you will need to add another kernel, do this as follows:
+```
+conda activate snakes
+python -m ipykernel install --user --name=snakes
+```
+
+If you install more packages and need to add them to the `.yaml` file, you can use this command:
+```
+conda env export > environment.yaml
+```
+
 # Notes 
 * No Longer doing tutorial from chapters
   * Won't be asked to do them
