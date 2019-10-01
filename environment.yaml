@@ -1,15 +1,17 @@
 name: snakes
 channels:
   - pytorch
+  - anaconda
   - conda-forge
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
   - backcall=0.1.0=py_0
-  - ca-certificates=2019.9.11=hecc5488_0
+  - ca-certificates=2019.8.28=0
   - certifi=2019.9.11=py36_0
   - cffi=1.12.3=py36h8022711_0
   - cudatoolkit=10.0.130=0
+  - cudnn=7.6.0=cuda10.0_0
   - cycler=0.10.0=py_1
   - dbus=1.13.6=he372182_0
   - decorator=4.4.0=py_0
@@ -54,7 +56,7 @@ dependencies:
   - ninja=1.9.0=h6bb024c_0
   - numpy=1.17.2=py36h95a1406_0
   - olefile=0.46=py_0
-  - openssl=1.1.1c=h516909a_0
+  - openssl=1.1.1=h7b6447c_0
   - pandas=0.25.1=py36hb3f55d8_0
   - parso=0.5.1=py_0
   - pcre=8.41=hf484d3e_1003
@@ -96,9 +98,26 @@ dependencies:
   - zlib=1.2.11=h516909a_1006
   - zstd=1.4.0=h3b9ef0a_0
   - pip:
+    - absl-py==0.8.0
+    - astor==0.8.0
     - efficientnet-pytorch==0.4.0
     - future==0.17.1
+    - gast==0.2.2
     - glances==3.1.1
+    - google-pasta==0.1.7
+    - grpcio==1.24.0
+    - h5py==2.10.0
+    - keras-applications==1.0.8
+    - keras-preprocessing==1.1.0
+    - markdown==3.1.1
     - nbmerge==0.0.4
+    - opt-einsum==3.1.0
+    - protobuf==3.9.2
+    - tensorboard==2.0.0
+    - tensorflow-estimator==2.0.0
+    - tensorflow-gpu==2.0.0
+    - termcolor==1.1.0
+    - werkzeug==0.16.0
+    - wrapt==1.11.2
 prefix: /home/angus/.pyenv/versions/anaconda3-5.3.1/envs/snakes
 
