@@ -4,7 +4,7 @@ Based on the [AI Crowd Snake Species Identification Challenge](https://aicrowd.c
 # Setup
 Run the following command to create a new conda env with the required packages:
 ```
-conda env create -f environment.yaml
+conda env create -f environment.yml
 ```
 To run jupyter notebooks you will need to add another kernel, do this as follows:
 ```
@@ -12,15 +12,12 @@ conda activate snakes
 python -m ipykernel install --user --name=snakes
 ```
 
-If you install more packages and need to add them to the `.yaml` file, you can use this command:
+If you install more packages and need to add them to the `.yml` file, you can use this command:
 ```
-conda env export > environment.yaml
+conda env export > environment.yml
 ```
 
 # Notes 
-* No Longer doing tutorial from chapters
-  * Won't be asked to do them
-  * All the time we were doing tutorials in the first block we will now be doing the snake identification 
 * We can use any method we like
 * Stats/NN/CNN/etc
 * Any combination of methods
@@ -48,7 +45,3 @@ conda env export > environment.yaml
 * Auto-encoders
 * etc
 * The more stuff we can try the more he will be impressed
-
-Due the week before exams, **25th October 2019**. Innovation day is the 24th, research due on the 18th October 2019. 
-
-By next week he expects us to have downloaded the dataset, show him that we can import the dataset into a project and that we have looked at the images and the different classes, different data, etc. We will get a mark based on it (either 1 or 0), that he may multiply by our final mark. 
