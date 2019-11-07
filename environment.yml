@@ -44,6 +44,7 @@ dependencies:
   - gstreamer=1.14.5=h36ae1b5_0
   - hdf5=1.10.2=hba1933b_1
   - icu=64.2=he1b5a44_1
+  - idna=2.8=py36_1000
   - imageio=2.6.1=py36_0
   - importlib_metadata=0.23=py36_0
   - intel-openmp=2019.5=281
@@ -94,6 +95,7 @@ dependencies:
   - numpy=1.17.2=py36h95a1406_0
   - nvidia-ml-py3=7.352.0=py_0
   - olefile=0.46=py_0
+  - openblas=0.3.7=h6e990d7_1
   - opencv=3.4.1=py36h6fd60c2_1
   - openssl=1.1.1d=h7b6447c_3
   - packaging=19.2=py_0
@@ -175,7 +177,6 @@ dependencies:
     - google-pasta==0.1.8
     - grpcio==1.25.0
     - h5py==2.10.0
-    - idna==2.8
     - keras-applications==1.0.8
     - keras-preprocessing==1.1.0
     - markdown==3.1.1
@@ -194,5 +195,5 @@ dependencies:
     - urllib3==1.25.6
     - werkzeug==0.16.0
     - wrapt==1.11.2
-prefix: /home/angus/anaconda3/envs/snakes
+prefix: /home/nmichlo/.pyenv/versions/miniconda3-latest/envs/snakes
 
