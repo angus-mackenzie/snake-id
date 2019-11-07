@@ -172,3 +172,4 @@ Temporary Items
 *.tar.gz
 data/*/class*
 data/bounding_boxed
+data/round1_test
