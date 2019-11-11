@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import random
 import json
 import numpy as np
@@ -11,6 +12,85 @@ import traceback
 import glob
 import os
 import json
+import dotenv
+
+# ========================================================================= #
+# VARS                                                                      #
+# ========================================================================= #
+
+from PIL import Image
+
+dotenv.load_dotenv(dotenv.find_dotenv())
+
+DATASET_DIR          = os.environ.setdefault('DATASET_DIR', 'data')
+DATASET_SSIC_CLASSES = os.environ.setdefault('DATASET_SSIC_CLASSES', os.path.join(DATASET_DIR, 'class_idx_mapping.csv'))
+DATASET_SSIC_TRAIN   = os.environ.setdefault('DATASET_SSIC_TRAIN', os.path.join(DATASET_DIR, 'train'))
+DATASET_SSIC_TEST    = os.environ.setdefault('DATASET_SSIC_TEST', os.path.join(DATASET_DIR, 'round1'))
+OUTPUT_FOLDER        = os.environ.setdefault('OUTPUT_FOLDER', 'out')
+
+
+# ========================================================================= #
+# VARS                                                                      #
+# ========================================================================= #
+
+
+print(os.listdir(DATASET_SSIC_TRAIN)[:10])
+print(os.listdir(DATASET_SSIC_TEST)[:10])
+
+# CLASSES
+
+def get_name_class_pairs():
+    import pandas as pd
+    return [tuple(pair) for pair in pd.read_csv(DATASET_SSIC_CLASSES).values]  # .to_dict('records')
+
+def get_name_cls_map():
+    return {name: cls for name, cls in get_name_class_pairs()}
+
+def get_cls_name_map():
+    return {cls: name for name, cls in get_name_class_pairs()}
+
+
+def get_train_imgs():
+    img_paths_valid, img_paths_invalid = [], []
+    # LOOP THROUGH CLASS FOLDERS
+    for cls_name in os.listdir(DATASET_SSIC_TRAIN):
+        cls_path = os.path.join(DATASET_SSIC_TRAIN, cls_name)
+        # LOOP THROUGH CLASS IMAGES
+        for img_name in os.listdir(cls_path):
+            img_path = os.path.join(cls_path, img_name)
+            data = (img_path, int(cls_name[len('class-'):]))
+            try:
+                img = Image.open(img_path)
+                img.verify()
+                img_paths_valid.append(data)
+            except (IOError, SyntaxError) as e:
+                img_paths_invalid.append(data)
+    return img_paths_valid, img_paths_invalid
+
+
+
+
+img_paths_valid, img_paths_invalid  = get_train_imgs()
+
+print(len(img_paths_valid))
+print(len(img_paths_invalid))
+print(img_paths_valid[:10])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+os.environ['AICROWD_TEST_IMAGES_PATH'] = '/home/nmichlo/downloads/datasets/ssic'
+os.environ['AICROWD_PREDICTIONS_OUTPUT_PATH'] = ''
 
 
 """
@@ -26,23 +106,14 @@ def gather_images(test_images_path):
     ))
     return images
 
-def gather_image_names(test_images_path):
-    images = gather_images(test_images_path)
+def gather_image_names():
+    images = gather_images(DATASET_SSIC_TEST)
     image_names = [os.path.basename(image_path) for image_path in images]
     return image_names
 
 def get_image_path(image_name):
     test_images_path = os.getenv("AICROWD_TEST_IMAGES_PATH", False)
     return os.path.join(test_images_path, image_name)
-
-def gather_input_output_path():
-    test_images_path = os.getenv("AICROWD_TEST_IMAGES_PATH", False)
-    assert test_images_path != False, "Please provide the path to the test images using the environment variable : AICROWD_TEST_IMAGES_PATH"
-
-    predictions_output_path = os.getenv("AICROWD_PREDICTIONS_OUTPUT_PATH", False)
-    assert predictions_output_path != False, "Please provide the output path (for writing the predictions.csv) using the environment variable : AICROWD_PREDICTIONS_OUTPUT_PATH"
-
-    return test_images_path, predictions_output_path
 
 def get_snake_classes():
     with open('data/class_idx_mapping.csv') as f:
@@ -55,19 +126,10 @@ def get_snake_classes():
 
 def run():
     ########################################################################
-    # Register Prediction Start
-    ########################################################################
-    # aicrowd_helpers.execution_start()
-
-    ########################################################################
-    # Gather Input and Output paths from environment variables
-    ########################################################################
-    test_images_path, predictions_output_path = gather_input_output_path()
-
-    ########################################################################
     # Gather Image Names
     ########################################################################
-    image_names = gather_image_names(test_images_path)
+
+    image_names = gather_image_names()
 
     ########################################################################
     # Do your magic here to train the model
@@ -82,6 +144,7 @@ def run():
     ########################################################################
     # Generate Predictions
     ########################################################################
+
     LINES = []
     LINES.append(','.join(['filename'] + classes))
     predictions = []
@@ -105,11 +168,11 @@ def run():
         #     "image_names" : [image_name]
         # })
 
-
     # Write output
     fp = open(predictions_output_path, "w")
     fp.write("\n".join(LINES))
     fp.close()
+
     ########################################################################
     # Register Prediction Complete
     ########################################################################
