@@ -169,8 +169,40 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# CUSTOM IGNORE
 *.tar.gz
 data/*/class*
-.idea
 data/bounding_boxed
 data/round1_test
+
+
+### BEGIN PyCharm ###
+# Edited from: https://www.gitignore.io/api/pycharm
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# random
+.idea/$CACHE_FILE$
+
+# CUSTOM THAT SHOULD NORMALLY NOT BE IGNORED
+.idea/**/deployment.xml
+.idea/**/misc.xml
+
+### END PyCharm ###
