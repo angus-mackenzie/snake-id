@@ -1,3 +1,12 @@
 [submodule "vendor/pytorch-cnn-visualizations"]
 	path = vendor/pytorch-cnn-visualizations
 	url = https://github.com/utkuozbulak/pytorch-cnn-visualizations.git
+[submodule "vendor/RAdam"]
+	path = vendor/RAdam
+	url = https://github.com/LiyuanLucasLiu/RAdam.git
+[submodule "vendor/Ranger-Deep-Learning-Optimizer"]
+	path = vendor/Ranger-Deep-Learning-Optimizer
+	url = https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer.git
+[submodule "vendor/Mish"]
+	path = vendor/Mish
+	url = https://github.com/digantamisra98/Mish.git
