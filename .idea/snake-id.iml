@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/notebooks" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.6.8 (sftp://nmichlo@heartofgold.dontpanic.sh:22/home/nmichlo/.pyenv/versions/miniconda3-latest/bin/python)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.6.7 (sftp://nmichlo@heartofgold.dontpanic.sh:22/home/nmichlo/.pyenv/versions/miniconda3-latest/envs/snakes/bin/python3.6)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
