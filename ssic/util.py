@@ -1,13 +1,11 @@
-import os
-import sys
-import json
-import dotenv
 
 
 def restore_python_path():
     """
     Saves the original sys.path on the first call, later uses this to reset the sys.path
     """
+    import sys
+
     # SAVE sys.path
     global _ORIG_SYS_PATH
     if '_ORIG_SYS_PATH' not in globals():
@@ -21,6 +19,9 @@ def add_python_path(path):
     """
     Appends to sys.path
     """
+    import sys
+    import os
+
     sys.path.insert(0, os.path.abspath(path))
 
 
@@ -30,6 +31,13 @@ def cache_data(path, generator, regen=False):
     - If the specified path does not exist, then the function is called to generate the data and the data is then saved for future use.
     - If the specified path does exist, the function is ignored and the cached data is immediately loaded.
     """
+    import os
+    import json
+
+    global _RETREIVED_CACHES
+    if '_RETREIVED_CACHES' not in globals():
+        _RETREIVED_CACHES = set()
+
     assert path.endswith('.json'), 'file name must end with .json'
     if regen or not os.path.exists(path):
         # GENERATE DATA & CACHE
@@ -44,7 +52,11 @@ def cache_data(path, generator, regen=False):
         # LOAD DATA IF EXISTS
         with open(path, 'r') as file:
             data = json.load(file)
-        print(f'[\033[92mLOADED\033[0m]: {path}')
+        if path not in _RETREIVED_CACHES:
+            print(f'[\033[92mLOADED\033[0m]: {path}')
+
+    _RETREIVED_CACHES.add(path)
+
     return data
 
 
@@ -52,6 +64,8 @@ def load_env():
     """
     Saves the original os.environ on the first call, later uses this to reset the os.environ
     """
+    import os
+    import dotenv
     
     # SAVE os.environ
     global _ORIG_ENVIRON
@@ -74,6 +88,8 @@ def get_env_path(key, default):
     Same as os.environ.get, but converts
     paths to their absolute representation.
     """
+    import os
+
     path = os.environ.get(key, default)
     path = os.path.abspath(path)
     print(f'[\033[92m{key}\033[0m]: \033[90m{path}\033[0m')
