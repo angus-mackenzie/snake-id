@@ -10,3 +10,6 @@
 [submodule "vendor/Mish"]
 	path = vendor/Mish
 	url = https://github.com/digantamisra98/Mish.git
+[submodule "vendor/lookahead.pytorch"]
+	path = vendor/lookahead.pytorch
+	url = https://github.com/alphadl/lookahead.pytorch.git
