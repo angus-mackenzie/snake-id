@@ -1,9 +1,20 @@
-
+import fastai
 from fastai.vision import *
 from fastai.metrics import accuracy
 from fastai.callbacks.hooks import num_features_model, Learner
 from efficientnet_pytorch import EfficientNet
+
+from cnn_layer_visualization import CNNLayerVisualization
+from deep_dream import DeepDream
+from generate_class_specific_samples import ClassSpecificImageGeneration
+from gradcam import GradCam
+from guided_backprop import GuidedBackprop
+
 from ranger import Ranger
+from radam import RAdam
+from Mish.Torch.functional import mish
+from Mish.Torch.mish import Mish
+
 from ssic.ssic import SSIC
 
 
@@ -25,16 +36,24 @@ class args:
     # activation = 'relu'             # TODO: relu / mish
     # optimizer = 'ranger'            # TODO: ranger / radam / adam / rmsprop
 
+    load = 'b0-trained-for-40'
+    save = False # 'b0-trained-for-40'
+
+    train = True
+    visualise = False
+    use_gpu = True
+
+    num_classes = 45
+
 
 # ========================================================================= #
 # HELPER                                                                    #
 # ========================================================================= #
 
 
-def make_model(out_features):
+def make_model():
     model = EfficientNet.from_pretrained(args.model_name)
-    # TODO: should 1280 not use num_features_model?
-    model.add_module('_fc', nn.Linear(1280, out_features))
+    model.add_module('_fc', nn.Linear(1280, args.num_classes))
     return model
 
 def make_data():
@@ -49,9 +68,7 @@ def make_data():
     # TODO: data.show_batch(3, figsize=(9, 9))
     return data
 
-def make_learner():
-    data = make_data()
-    model = make_model(out_features=data.c)
+def make_learner(model, data):
     # noinspection PyArgumentList
     learner = Learner(
         data=data,
@@ -74,17 +91,78 @@ def make_learner():
 # ========================================================================= #
 
 
+
+
 if __name__ == '__main__':
     SSIC.init(seed=42)
-    learner = make_learner()
-    fit_one_cycle(
-        learn=learner,
-        cyc_len=args.epochs,
-        max_lr=slice(args.lr/100, args.lr)
-    )
-    learner.save('b0-trained-for-40', return_path=True)
-    learner = learner.load('b0-trained-for-40')
 
+    # default device
+    defaults.device = torch.device('cuda' if args.use_gpu else 'cpu')
+
+    # model = make_model()
+    # model.load_state_dict(torch.load(f'../../notebooks/vanilla_b0_efficientnet/{args.load}.pth', map_location=defaults.device)['model'])
+
+
+
+    target_class = 130  # Flamingo
+    # pretrained_model = models.alexnet(pretrained=True).to(defaults.device)
+
+
+
+
+
+    # doesnt really produce good results
+    # pretrained_model = EfficientNet.from_pretrained(args.model_name)
+    # csig = ClassSpecificImageGeneration(pretrained_model, target_class)
+    # csig.generate()
+
+    # EFFICIENT NET DOES NOT SUPPORT LAYER INDEXING
+    # cnn_layer = 17
+    # filter_pos = 5
+    # layer_vis = CNNLayerVisualization(model, cnn_layer, filter_pos)
+    # layer_vis.visualise_layer_with_hooks()
+
+
+
+
+    #
+    #
+    # # CREATE DATA
+    # if args.train:
+    #     data = make_data()
+    #     assert data.c == args.num_classes, 'number of classes mismatch'
+    # else:
+    #     data = None
+    #
+    # # MODEL
+    # model = make_model(out_features=args.num_classes)
+    #
+    # create_cnn()
+    #
+    # learner = make_learner(model, data)
+    # if args.load:
+    #     learner = learner.load(args.load)
+    #
+    # # TRAIN
+    # if args.train:
+    #     fit_one_cycle(
+    #         learn=learner,
+    #         cyc_len=args.epochs,
+    #         max_lr=slice(args.lr/100, args.lr)
+    #     )
+    #     # SAVE
+    #     if args.save:
+    #         learner.save(args.save, return_path=True)
+
+    # if args.visualise:
+    #     # https://github.com/utkuozbulak/pytorch-cnn-visualizations
+    #     # subset of the best methods.
+    #     image_gen    = ClassSpecificImageGeneration(model)
+    #     layer_vis    = CNNLayerVisualization(model)
+    #     guided_prop  = GuidedBackprop(model)
+    #     grad_cap     = GradCam(model)
+    #     deep_dream   = DeepDream(model)
+    #     # TODO: USE!
 
 # ========================================================================= #
 # END                                                                       #
