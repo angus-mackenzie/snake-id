@@ -91,6 +91,7 @@ def get_env_path(key, default):
     import os
 
     path = os.environ.get(key, default)
+    path = os.path.expanduser(path)
     path = os.path.abspath(path)
     print(f'[\033[95m{key}\033[0m]: \033[90m{path}\033[0m')
     return path
