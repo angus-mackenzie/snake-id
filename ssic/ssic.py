@@ -37,11 +37,9 @@ class SSIC:
         raise RuntimeError('Cannot instantiate this class')
 
     @classmethod
-    def init(cls, seed=42):
+    def init(cls):
         cls._init_environ()
         cls._load_vars()
-        if seed is not None:
-            util.set_random_seed(seed)
 
     @classmethod
     def _init_environ(cls):
@@ -51,16 +49,17 @@ class SSIC:
         # SAVE ORIGINAL or RESTORE TO ORIGINAL
         util.restore_python_path()
 
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         # Methods to visualise CNN activations: https://github.com/utkuozbulak/pytorch-cnn-visualizations
-        util.add_python_path('vendor/pytorch-cnn-visualizations/src')
+        util.add_python_path(f'{root_dir}/vendor/pytorch-cnn-visualizations/src')
         # Mish activation function: https://github.com/digantamisra98/Mish
-        util.add_python_path('vendor/Mish')
+        util.add_python_path(f'{root_dir}/vendor/Mish')
         # Variance of the Adaptive Learning Rate: https://github.com/LiyuanLucasLiu/RAdam
-        util.add_python_path('vendor/RAdam')
+        util.add_python_path(f'{root_dir}/vendor/RAdam')
         # Lookahead optimizer: https://github.com/alphadl/lookahead.pytorch
-        util.add_python_path('vendor/lookahead.pytorch')
+        util.add_python_path(f'{root_dir}/vendor/lookahead.pytorch')
         # Ranger=RAdam+Lookahead: https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer
-        util.add_python_path('vendor/Ranger-Deep-Learning-Optimizer')
+        util.add_python_path(f'{root_dir}/vendor/Ranger-Deep-Learning-Optimizer')
 
     @classmethod
     def _load_vars(cls):

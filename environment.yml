@@ -171,6 +171,7 @@ dependencies:
     - astor==0.8.0
     - cachetools==3.1.1
     - colorama==0.4.1
+    - efficientnet-pytorch==0.5.1
     - future==0.18.2
     - gast==0.2.2
     - google-auth==1.7.0

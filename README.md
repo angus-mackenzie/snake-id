@@ -1,6 +1,18 @@
 # Snakes Challenge
 Based on the [AI Crowd Snake Species Identification Challenge](https://aicrowd.com/challenges/snake-species-identification-challenge)
 
+# Cloning This Repo
+
+Make sure to include submodules
+```
+git clone --recursive <repo_url>.git
+```
+
+Or if you have already cloned the repo, but are missing submodules
+```
+git submodule update --init
+```
+
 # Setup
 Run the following command to create a new conda env with the required packages:
 ```
