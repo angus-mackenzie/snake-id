@@ -1,6 +1,22 @@
 import os
 from ssic import util
 
+# ========================================================================= #
+# util                                                                      #
+# ========================================================================= #
+
+
+def _cache(name):
+    # decorator that does the same thing as util.cache_data, but uses cls.STORAGE_DIR as the default base.
+    def wrapper(_func):
+        def inner(cls, *args, **kwargs):
+            return util.cache_data(
+                path=os.path.join(cls.STORAGE_DIR, name),
+                generator=lambda: _func(cls, *args, **kwargs)
+            )
+        return inner
+    return wrapper
+
 
 # ========================================================================= #
 # config                                                                    #
@@ -21,9 +37,11 @@ class SSIC:
         raise RuntimeError('Cannot instantiate this class')
 
     @classmethod
-    def init(cls):
+    def init(cls, seed=42):
         cls._init_environ()
         cls._load_vars()
+        if seed is not None:
+            util.set_random_seed(seed)
 
     @classmethod
     def _init_environ(cls):
@@ -55,17 +73,6 @@ class SSIC:
         cls.DATASET_TEST_DIR = util.get_env_path('DATASET_TEST_DIR',   os.path.join(cls.DATASET_DIR, 'round1'))  # path pattern: {DATASET_TEST_DIR}/{uuid}.{ext}
 
     @classmethod
-    def cache_data(cls, name, func=None):
-        def wrapper(_func):
-            def inner(*args, **kwargs):
-                util.cache_data(
-                    path=os.path.join(cls.STORAGE_DIR, name),
-                    generator=lambda: _func(*args, **kwargs)
-                )
-            return inner
-        return wrapper if func is None else wrapper(func)
-
-    @classmethod
     def get_class_name_map(cls):
         """
         load all the snake classes, keys are ids, values are names
@@ -74,6 +81,7 @@ class SSIC:
 
         mapping = {class_id: name for name, class_id in pd.read_csv(cls.DATASET_CLASS_CSV).values}
         print(f'[\033[92mLOADED\033[0m]: {len(mapping)} classes from: {cls.DATASET_CLASS_CSV}')
+
         return mapping
 
     @classmethod
@@ -84,15 +92,15 @@ class SSIC:
         return {name: class_id for (class_id, name) in cls.get_class_name_map().items()}
 
     @classmethod
-    @cache_data('img_info.json')
-    def get_train_img_info(cls):
+    @_cache('img_info.json')
+    def get_train_image_info(cls):
         """
         Get all the paths, names and classes of training images, verifying that images of any paths returned are actually valid.
         """
         from tqdm import tqdm
         from PIL import Image
 
-        info_valid, info_invalid = {}, {}
+        info = {}
         # LOOP THROUGH CLASS FOLDERS
         for cls_name in tqdm(os.listdir(cls.DATASET_TRAIN_DIR)):
             cls_path = os.path.join(cls.DATASET_TRAIN_DIR, cls_name)
@@ -101,7 +109,7 @@ class SSIC:
             for name in os.listdir(cls_path):
                 path, valid = os.path.join(cls_path, name), False
                 # make sure we have not seen this before
-                assert (name not in info_valid) and (name not in info_invalid), f'Duplicate image name: {path}'
+                assert name not in info, f'Duplicate image name: {path}'
                 # validate image
                 try:
                     Image.open(path).verify()
@@ -109,25 +117,33 @@ class SSIC:
                 except (IOError, SyntaxError) as e:
                     pass
                 # append data
-                (info_valid if valid else info_invalid)[name] = dict(
+                info[name] = dict(
                     name=name,       # ({uuid}.{ext})
                     path=path,       # ({DATASET_TRAIN_DIR}/class-{id}/{uuid}.{ext})
-                    class_id=cls_id  # class-({class_id})
+                    class_id=cls_id, # class-({class_id})
+                    valid=valid
                 )
 
         # Make sure that all classes appear in valid data and vice versa
         classes_csv = set(cls.get_class_name_map())
-        classes_img = {info['class_id'] for info in info_valid.values()}
+        classes_img = {info['class_id'] for info in info.values()}
         assert len(classes_csv - classes_img) == 0
         assert len(classes_img - classes_csv) == 0
 
-        print(f'  valid:   {len(info_valid)}')
-        print(f'  invalid: {len(info_invalid)}')
+        print(f'  valid:   {sum(inf["valid"] for inf in info.values())}')
+        print(f'  invalid: {sum(not inf["valid"] for inf in info.values())}')
 
-        return info_valid, info_invalid
+        return info
 
     @classmethod
-    @cache_data('human_annotations.json')
+    def get_train_imagelist(cls, validate_ratio=0.2):
+        from fastai.vision import ImageList
+        return ImageList([
+            info['path'] for info in cls.get_train_image_info().values() if info['valid']
+        ]).split_by_rand_pct(validate_ratio).label_from_folder()
+
+    @classmethod
+    @_cache('human_annotations.json')
     def get_human_annotated_boxes(cls):
         """
         Source article: https://medium.com/@Stormblessed/2460292bcfb
