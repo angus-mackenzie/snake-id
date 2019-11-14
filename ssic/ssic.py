@@ -134,6 +134,20 @@ class __SSIC:
         print(f'  invalid: {sum(not inf["valid"] for inf in info.values())}')
 
         return info
+    
+    def get_random_img_info(self):
+        import random
+        image_info = self.get_train_image_info()
+        return image_info[random.choice(list(image_info))]
+    
+    def get_random_img_data(self):
+        from PIL import Image
+        import numpy as np
+        info = self.get_random_img_info()
+        return np.array(Image.open(info['path'])), info
+    
+    def get_random_img(self):
+        return self.get_random_img_data()[0]
 
     def get_train_imagelist(self, validate_ratio=0.2):
         from fastai.vision import ImageList
