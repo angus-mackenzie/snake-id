@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/vendor/pytorch-cnn-visualizations/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/vendor/Ranger-Deep-Learning-Optimizer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/vendor/RAdam" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/vendor/Mish" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/vendor/lookahead.pytorch" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/.circleci" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Docs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Mish/Keras" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Mish/MXNet" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Mish/TFKeras" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Notebooks" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/Mish/Observations" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/RAdam/cifar_imagenet" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/RAdam/img" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/RAdam/language-model" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/RAdam/nmt" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lookahead.pytorch/fig" />
+    </content>
+    <orderEntry type="jdk" jdkName="Remote Python 3.6.7 (sftp://nmichlo@heartofgold.dontpanic.sh:22/home/nmichlo/.pyenv/versions/miniconda3-latest/envs/snakes/bin/python3.6)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="pytest" />
+    <option name="PROJECT_TEST_RUNNER" value="pytest" />
+  </component>
+</module>
