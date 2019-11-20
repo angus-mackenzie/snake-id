@@ -35,3 +35,6 @@ If you install more packages and need to add them to the `.yml` file, you can us
 ```
 conda env export > environment.yml
 ```
+
+# Trained Models
+We trained a number of models, they are available via [Google Drive](https://drive.google.com/drive/folders/1r1JVvd6E7hiZ2slUgI0UJ0JygGjYYj3M?usp=sharing)
