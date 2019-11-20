@@ -6,7 +6,7 @@ Based on the [AI Crowd Snake Species Identification Challenge](https://aicrowd.c
 # Task
 The _Snake Species Identification Challenge_ or _SSIC_ is a dataset containing 82601 images of snakes with varying backgrounds, crops and viewpoints. The goal of SSIC is to classify each snake contained in each image into one of 45 classes or snake species.
 
-The goal of this project is to investigate the application of various computer vision approaches to this image classification task for the SSIC challenge. Additionally the project investigates why these methods perform differently.
+The goal of this project was to investigate the application of various computer vision approaches to this image classification task for the SSIC challenge. Additionally the project investigated why these methods perform differently.
 
 # Cloning This Repo
 
