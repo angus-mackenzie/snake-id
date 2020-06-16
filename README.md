@@ -38,3 +38,6 @@ conda env export > environment.yml
 
 # Trained Models
 We trained a number of models, they are available via [Google Drive](https://drive.google.com/drive/folders/1r1JVvd6E7hiZ2slUgI0UJ0JygGjYYj3M?usp=sharing)
+
+# Report
+We included the [report](https://github.com/AngusTheMack/snake-id/blob/master/Snakes_Report.pdf) that we submitted.
